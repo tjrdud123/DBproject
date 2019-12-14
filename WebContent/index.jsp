@@ -28,9 +28,10 @@
 <body id="page-top">
 
   <%
+  	//session.removeAttribute("id");
   	String id = new String();
 	id = null;
-	session.removeAttribute("id");
+	//session.removeAttribute("id");
 	id = (String)session.getAttribute("id");
   %>
 
@@ -42,10 +43,15 @@
       	<% if(id == null){ %>
         <em>DB project team 2</em>
         <%}else{%>
-        <p><a class="btn btn-primary btn-xl" href="login.jsp">LOG IN</a></p>
+        <em><%=id %>¥‘ æ»≥Á«œººø‰!</em>
         <%}%>
       </h3>
-      <p><a class="btn btn-primary btn-xl" href="login.jsp">LOG IN</a></p>
+      <% if(id == null){ %>
+        <p><a class="btn btn-primary btn-xl" href="login.jsp">LOG IN</a></p>
+        <%}else{%>
+        <p><a class="btn btn-primary btn-xl" href="logout.jsp">LOG OUT</a></p>
+        <%}%>
+      
       <a class="btn btn-primary btn-xl" href="signup.jsp">SIGN UP</a>
     </div>
     <div class="overlay"></div>
@@ -60,7 +66,11 @@
       </div>
       <div class="row no-gutters">
         <div class="col-lg-6">
-          <a class="portfolio-item" href="view.jsp">
+          <% if(id == null){ %>
+        <a class="portfolio-item" href="login.jsp">
+        <%}else{%>
+        <a class="portfolio-item" href="view.jsp">
+        <%}%>
             <span class="caption">
               <span class="caption-content">
                 <h2></h2>
@@ -71,7 +81,13 @@
           </a>
         </div>
         <div class="col-lg-6">
-          <a class="portfolio-item" href="recommand.jsp">
+          <% if(id == null){ %>
+        <a class="portfolio-item" href="login.jsp">
+        <%}else{%>
+        <a class="portfolio-item" href="recommand.jsp">
+        <%}%>
+          
+          
             <span class="caption">
               <span class="caption-content">
                 <h2></h2>
