@@ -84,7 +84,7 @@
           <% if(id == null){ %>
         <a class="portfolio-item" href="login.jsp">
         <%}else{%>
-        <a class="portfolio-item" href="recommand.jsp">
+        <a class="portfolio-item" href="recommend.jsp">
         <%}%>
           
           
@@ -171,7 +171,7 @@
           </a>
         </li>
         <li class="list-inline-item">
-          <a class="social-link rounded-circle text-white" href="#">
+          <a class="social-link rounded-circle text-white" href="https://github.com/tjrdud123/DBproject">
             <i class="icon-social-github"></i>
           </a>
         </li>
