@@ -789,8 +789,8 @@ h1, h2, h3, h4, h5, h6, figure {
   background-position: top center;
   background-repeat: no-repeat;
   position: relative;
-  height: 350px;
-  margin-bottom: 20px;
+  height: 220px;
+  margin-bottom: 0px;
   -webkit-transition: 0.3s;
   -o-transition: 0.3s;
   transition: 0.3s;
@@ -810,7 +810,7 @@ h1, h2, h3, h4, h5, h6, figure {
 }
 .product .product-grid .inner {
   display: table;
-  height: 350px;
+  height: 220px;
   width: 100%;
   opacity: 0;
   background: rgba(0, 0, 0, 0.3);
@@ -966,7 +966,7 @@ h1, h2, h3, h4, h5, h6, figure {
   float: left;
   margin-bottom: 1em;
 }
-.fh5co-tabs .fh5co-tab-content-wrap .feed > div blockquote {
+.fh5co-tafbs .fh5co-tab-content-wrap .feed > div blockquote {
   border-left: 0;
   padding: 20px;
   background: rgba(0, 0, 0, 0.04);

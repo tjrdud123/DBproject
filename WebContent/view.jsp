@@ -1,3 +1,11 @@
+<%@ page import ="java.util.*" %>
+<%@ page import ="java.io.*" %>
+<%@ page import = "java.sql.Connection" %>
+<%@ page import = "java.sql.DriverManager" %>
+<%@ page import = "java.sql.ResultSet" %>
+<%@ page import = "java.sql.SQLException" %>
+<%@ page import = "java.sql.Statement" %>
+
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
 <!DOCTYPE HTML>
@@ -5,7 +13,7 @@
 	<head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>책</title>
+	<title>책 조회하기</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta name="description" content="Free HTML5 Website Template by gettemplates.co" />
 	<meta name="keywords" content="free website templates, free html5, free template, free bootstrap, free website template, html5, css3, mobile first, responsive" />
@@ -105,26 +113,83 @@
 		</div>
 	</header>
 	
+	<%
+		String url = "jdbc:oracle:thin:@localhost:1521:oraknu";
+		String user = "hsy";
+		String pass = "hsy";
+		Connection conn = null;
+		String query = null;
+		String id = new String();
+		
+		int price;
+		int bid;
+		String bookName;
+		String URL;
+		
+		try {
+			Class.forName("oracle.jdbc.driver.OracleDriver");
+		} catch (ClassNotFoundException e) {
+			System.err.println("error: " + e.getMessage());
+			System.exit(1);
+		}
+
+		try {
+			conn = DriverManager.getConnection(url, user, pass);
+		} catch (SQLException e) {
+			System.err.println("Sql error: " + e.getMessage());
+			System.exit(1);
+		}
+	%>
+	
 	<div id="fh5co-product">
 		<div class="container">
-			
-			
-				<div class="col-md-3 text-center animate-box">
+			<%
+			try {
+				
+				conn.setAutoCommit(false);
+
+				Statement stmt = conn.createStatement();
+				query = "select book_id, book_name, img_url, price from book";
+				ResultSet rs = stmt.executeQuery(query);
+
+				while (rs.next()) {
+					bid = rs.getInt(1);
+					bookName = rs.getString(2);
+					URL = rs.getString(3);
+					price = rs.getInt(4);	
+					%>
+					<div class="col-md-3 text-center animate-box">
 					<div class="product">
-						<div class="product-grid" style="background-image:url();">
-							<div class="inner">
-								<p>
-									<a href="single.html" class="icon"><i class="icon-shopping-cart"></i></a>
-									<a href="single.html" class="icon"><i class="icon-eye"></i></a>
-								</p>
-							</div>
+						<div class="product-grid" style="width:150px; height:220px; text-align: center; margin:auto;">
+							<iframe src = "<%=URL %>" style="width:100%; height:100%; border:none" marginwidth="0" marginheight="0">
+							
+							</iframe>
 						</div>
+						<br>
 						<div class="desc">
-							<h3><a href="single.html">Hauteville</a></h3>
-							<span class="price">$350</span>
+							<form action = "detail.jsp" method = "post">
+							<input type = "hidden" name = "bookid" value = "<%=bid%>">
+							<h3><input style = "font-size:10px; width:100%; margin:auto;" class = "btn btn-default btn-block" type = "submit" value = "<%=bookName %>"></h3>
+							<span class="price">\<%=price %></span>
+							</form>
 						</div>
 					</div>
-				</div>
+					</div>
+					<%
+				}
+
+				rs.close();
+				stmt.close();
+				conn.setAutoCommit(true);
+				
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			%>
+				
+				
 				
 				
 				
