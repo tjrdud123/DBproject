@@ -5,6 +5,7 @@
 <%@ page import = "java.sql.ResultSet" %>
 <%@ page import = "java.sql.SQLException" %>
 <%@ page import = "java.sql.Statement" %>
+<%@ page import="java.sql.PreparedStatement"%>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -105,6 +106,27 @@
 	</header>
 	
 	<%
+		request.setCharacterEncoding("UTF-8");
+
+		String temp = request.getParameter("option");
+		String search = request.getParameter("search");
+		int option=0;
+		if(temp.equals("title")){
+			option = 1;
+		}else if(temp.equals("author")){
+			option = 2;
+		}else if(temp.equals("publiser")){
+			option = 3;
+		}else{
+			option = 4;
+		}
+		
+		//System.out.println();
+		//System.out.println(option);
+		//System.out.println(search);
+	%>
+	
+	<%
 		String url = "jdbc:oracle:thin:@localhost:1521:oraknu";
 		String user = "hsy";
 		String pass = "hsy";
@@ -135,50 +157,66 @@
 	<div id="fh5co-product">
 		<div class="container">
 			<%
-			try {
-				
-				conn.setAutoCommit(false);
-
-				Statement stmt = conn.createStatement();
-				query = "select book_id, book_name, img_url, price from book";
-				ResultSet rs = stmt.executeQuery(query);
-
-				while (rs.next()) {
-					bid = rs.getInt(1);
-					bookName = rs.getString(2);
-					URL = rs.getString(3);
-					price = rs.getInt(4);	
-					%>
-					<div class="col-md-3 text-center animate-box">
+			 try {
+		         conn.setAutoCommit(false);
+		         
+		         String sql = "select * from book where ";
+		         
+		         
+		         switch(option) {
+		         case 1:
+		            sql += "book_name like '%' || ? || '%'";
+		            break;
+		            
+		         case 2:
+		            sql += "author like '%' || ? || '%'";
+		            break;
+		            
+		         case 3:
+		            sql += "publiser like '%' || ? || '%'";
+		            break;
+		            
+		         case 4:
+		            sql += "gname like '%' || ? || '%'";
+		            break;
+		            
+		         default:
+		            System.out.println("Error");
+		         }
+		      
+		         PreparedStatement pstmt = conn.prepareStatement(sql);
+		         pstmt.setString(1, search);
+		         
+		         ResultSet rs = pstmt.executeQuery();
+		         while (rs.next()) {%>
+		           <div class="col-md-3 text-center animate-box">
 					<div class="product">
 						<div class="product-grid" style="width:150px; height:220px; text-align: center; margin:auto;">
-							<iframe src = "<%=URL %>" style="width:100%; height:100%; border:none" marginwidth="0" marginheight="0">
+							<iframe src = "<%=rs.getString(3) %>" style="width:100%; height:100%; border:none" marginwidth="0" marginheight="0">
 							
 							</iframe>
 						</div>
 						<br>
 						<div class="desc">
 							<form action = "detail.jsp" method = "post">
-							<input type = "hidden" name = "bookid" value = "<%=bid%>">
-							<h3><input style = "font-size:10px; width:100%; margin:auto;" class = "btn btn-default btn-block" type = "submit" value = "<%=bookName %>"></h3>
-							<span class="price">\<%=price %></span>
+							<input type = "hidden" name = "bookid" value = "<%=rs.getInt(1)%>">
+							<h3><input style = "font-size:10px; width:100%; margin:auto;" class = "btn btn-default btn-block" type = "submit" value = "<%=rs.getString(2) %>"></h3>
+							<span class="price">\<%=rs.getString(9) %></span>
 							</form>
 						</div>
 					</div>
 					</div>
-					<%
-				}
+		           
+		           
+		         <%}
+		         conn.commit();
+		         conn.setAutoCommit(true);
+		         rs.close();
+		         pstmt.close();
 
-				rs.close();
-				stmt.close();
-				conn.setAutoCommit(true);
-				
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			%>
+		      } catch (Exception e) {
+		         System.err.println("Sql error: " + e.getMessage());
+		      }			%>
 				
 				
 				

@@ -73,28 +73,29 @@
         <%}%>
             <span class="caption">
               <span class="caption-content">
-                <h2></h2>
+                <h2>책 검색하기</h2>
                 <p class="mb-0"></p>
               </span>
             </span>
-            <img class="img-fluid" src="index/img/lookup.jpg" alt="">
+            <img class="img-fluid" src="index/img/portfolio-1.jpg" alt="">
+          
           </a>
         </div>
         <div class="col-lg-6">
           <% if(id == null){ %>
         <a class="portfolio-item" href="login.jsp">
         <%}else{%>
-        <a class="portfolio-item" href="recommend.jsp">
+        <a class="portfolio-item" href="buyinglist.jsp">
         <%}%>
           
           
             <span class="caption">
               <span class="caption-content">
-                <h2></h2>
+                <h2>주문내역 보기</h2>
                 <p class="mb-0"></p>
               </span>
             </span>
-            <img class="img-fluid" src="index/img/recommand.jpg" alt="">
+            <img class="img-fluid" src="index/img/portfolio-2.jpg" alt="">
           </a>
         </div>
         
@@ -151,6 +152,7 @@
         </div>
       </div>
     </div>
+    
   </section>
 
 

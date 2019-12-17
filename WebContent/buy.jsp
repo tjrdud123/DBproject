@@ -50,33 +50,42 @@ int price = Integer.parseInt(temp);
 String img_url = request.getParameter("url");
 
 %>	
-	<div class="limiter" style = "height:300px;margin-top: 1px;">
-		<div class="container-login100" style="width:1000px; height:300px;margin:auto;margin-top: 1px;">
-				<div>
+	
+		<div class="container-login100" style="width:1000px; height:300px;margin:auto;margin-top: 0px;">
+				<div style = "margin-top: 0px;">
 				<iframe src = "<%=img_url %>" style=" width:150px; height:220px; border:none" marginwidth="0" marginheight="0">
 					</iframe>
 					</div><br><br>
-				<form class="login100-form validate-form">
+					
+				<form class="login100-form validate-form" action = "complete.jsp" method = "post">
 					<span class="login100-form-title p-b-34">
 						도서 구매하기
 					</span>
 					
 					
-					<div class="wrap-input100 rs1-wrap-input100 validate-input m-b-20" data-validate="Type user name">
-						<input id="first-name" class="input100" type="text" name="username" placeholder="User name">
-						<span class="focus-input100"></span>
+					<div style="width:100px;">
+						<span class="login100-form-title p-b-34">
+						<%=price %>원
+					</span>
+					
 					</div>
-					<div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20" data-validate="Type password">
-						<input class="input100" type="password" name="pass" placeholder="Password">
+					<div class="wrap-input100 rs2-wrap-input100 validate-input m-b-20" data-validate="Type password" style = "display:inline; width:70px; margin:auto;">
+						<input style = "width:70px;"class="input100" type="text" name="n" placeholder="권">
 						<span class="focus-input100"></span>
+						
+					</div>
+						<%
+							String userid = (String)session.getAttribute("id");
+						%>
+						<input type="hidden" name="userID" value = "<%=userid%>"> 
+						<input  type="hidden" name="bookID" value = "<%=bookID%>">
+						
+					<div class="container-login100-form-btn">
+						<input type ="submit" value = "구매하기" class="login100-form-btn">
+							
+						
 					</div>
 					
-					<div class="container-login100-form-btn">
-						<button class="login100-form-btn">
-							구매하기
-						</button>
-					</div>
-
 					<div class="w-full text-center p-t-27 p-b-239">
 
 						<a href="view.jsp" class="txt2">
@@ -88,7 +97,7 @@ String img_url = request.getParameter("url");
 
 			
 		</div>
-	</div>
+	
 	
 	
 

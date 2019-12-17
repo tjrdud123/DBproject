@@ -9,8 +9,8 @@
 	ResultSet rs1 = null;
 	ResultSet rs2 = null;
 	String url="jdbc:oracle:thin:@localhost:1521:oraknu";
-	String id="kdhong";
-	String pw="kdhong";
+	String id="hsy";
+	String pw="hsy";
 	String my_id;
 	int my_cid = 2;
 	String sql1="select * from customer where cid = ?";

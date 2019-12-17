@@ -6,6 +6,10 @@
 <%@ page import="java.sql.SQLException"%>
 <%@ page import="java.sql.Statement"%>
 <%@ page import="java.sql.PreparedStatement"%>
+<%@ page import="dbcode.Customer"%>
+<%@ page import="java.sql.Date"%>
+<%@ page import="java.util.ArrayList"%>
+<%@ page import="dbcode.Book"%>
 
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
 	pageEncoding="UTF-8"%>
@@ -46,7 +50,7 @@ String book_name =null;
 String img_url=null;
 String author=null;
 String publiser=null;
-String publication_date=null;
+Date publication_date=null;
 String gname=null;
 int left_book=0;
 int price=0;
@@ -89,7 +93,7 @@ try {
 	img_url = rs.getString(3);
 	author = rs.getString(4);
 	publiser = rs.getString(5);
-	publication_date = rs.getString(6);
+	publication_date = rs.getDate(6);
 	gname = rs.getString(7);
 	left_book = rs.getInt(8);
 	price = rs.getInt(9);
@@ -108,8 +112,9 @@ try {
 
 	<section class="header7 cid-rrg5WhmoYo" id="header7-g">
 		<div class="container">
+			
 			<div class="media-container-row">
-
+				
 				<div class="media-content align-right">
 					<h1
 						class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-2">
@@ -137,7 +142,10 @@ try {
 							가격 :
 							<%=price %>원
 						</p>
-
+						<a style="font:red"class="mbr-text mbr-fonts-style display-5" href = "view.jsp">
+							돌아가기
+						</a>
+						
 
 
 
@@ -146,33 +154,117 @@ try {
 
 				</div>
 				<div class="media-content align-right">
-				<div class="mbr-section-text mbr-white pb-3">
-				<div class="mbr-figure" style="width: 135%;">
-					<iframe class="mbr-embedded-video" src="<%=img_url%>" width="1920"
-						height="1080" frameborder="0" allowfullscreen></iframe>
-				</div>
-				<br>
-				<form action = "buy.jsp" method = "post">
-							<input type = "hidden" name = "bookid" value = "<%=bookID%>">
-							<input type = "hidden" name = "bookName" value = "<%=book_name%>">
-							<input type = "hidden" name = "price" value = "<%=price%>">
-							<input type = "hidden" name = "url" value = "<%=img_url%>">
-							<input style = "font-size:30px; width:140px; height:45px"  class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-2"  type = "submit" value = "구매하기">
-							
-							</form>
-				</div>
+					<div class="mbr-section-text mbr-white pb-3">
+						<div class="mbr-figure" style="width: 135%;">
+							<iframe class="mbr-embedded-video" src="<%=img_url%>"
+								width="1920" height="1080" frameborder="0" allowfullscreen></iframe>
+						</div>
+						<br>
+						<form action="buy.jsp" method="post">
+							<input type="hidden" name="bookid" value="<%=bookID%>"> <input
+								type="hidden" name="bookName" value="<%=book_name%>"> <input
+								type="hidden" name="price" value="<%=price%>"> <input
+								type="hidden" name="url" value="<%=img_url%>"> <input
+								style="font-size: 30px; width: 140px; height: 45px"
+								class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-2"
+								type="submit" value="구매하기">
+
+						</form>
+					</div>
 				</div>
 			</div>
-			
-		</div>
-		<div class="container">
-			<div class="media-content align-right">
-			<br>
-			<h1 class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-2">이런 책은 어떠세요?</h1>
-			</div>
+
 		</div>
 
 	</section>
+
+	<div class="container">
+		<div class="media-content align-right">
+			<br>
+			<h1
+				style = "margin:auto;color:black;"class="mbr-section-title mbr-white pb-3 mbr-fonts-style display-2">이런
+				책은 어떠세요?</h1>
+		</div>
+	</div>
+	<%
+		
+		Customer cus = new Customer();
+		ArrayList<Book> arrayList = new ArrayList<>();
+		arrayList = cus.recommendBook(bookID);		
+		%>
+
+	<div style="display: inline; min-width: 100%;">
+		<div class="col-md-3 text-center animate-box"
+			style="display: inline; float: left;">
+			<div class="product">
+				<div class="product-grid"
+					style="width: 150px; height: 220px; text-align: center; margin: auto;">
+					<iframe src="<%=arrayList.get(0).getImg_url() %>"
+						style="width: 100%; height: 100%; border: none" marginwidth="0"
+						marginheight="0"> </iframe>
+					<form action = "detail.jsp" method = "post">
+					<input type ="hidden" name ="bookid" value = "<%=arrayList.get(0).getBook_id()%>">
+					<input type = "submit" value = "상세보기">
+					</form>
+				</div>
+
+
+			</div>
+		</div>
+
+		<div class="col-md-3 text-center animate-box"
+			style="display: inline; float: left;">
+			<div class="product">
+				<div class="product-grid"
+					style="width: 150px; height: 220px; text-align: center; margin: auto;">
+					<iframe src="<%=arrayList.get(1).getImg_url() %>"
+						style="width: 100%; height: 100%; border: none" marginwidth="0"
+						marginheight="0"> </iframe>
+						<form action = "detail.jsp" method = "post">
+					<input type ="hidden" name ="bookid" value = "<%=arrayList.get(1).getBook_id()%>">
+					<input type = "submit" value = "상세보기">
+					</form>
+				</div>
+
+
+			</div>
+		</div>
+		<div class="col-md-3 text-center animate-box"
+			style="display: inline; float: left;">
+			<div class="product">
+				<div class="product-grid"
+					style="width: 150px; height: 220px; text-align: center; margin: auto;">
+					<iframe src="<%=arrayList.get(2).getImg_url() %>"
+						style="width: 100%; height: 100%; border: none" marginwidth="0"
+						marginheight="0"> </iframe>
+						<form action = "detail.jsp" method = "post">
+					<input type ="hidden" name ="bookid" value = "<%=arrayList.get(2).getBook_id()%>">
+					<input type = "submit" value = "상세보기">
+					</form>
+				</div>
+
+
+			</div>
+		</div>
+		<div class="col-md-3 text-center animate-box"
+			style="display: inline; float: left;">
+			<div class="product">
+				<div class="product-grid"
+					style="width: 150px; height: 220px; text-align: center; margin: auto;">
+					<iframe src="<%=arrayList.get(3).getImg_url() %>"
+						style="width: 100%; height: 100%; border: none" marginwidth="0"
+						marginheight="0"> </iframe>
+						<form action = "detail.jsp" method = "post">
+					<input type ="hidden" name ="bookid" value = "<%=arrayList.get(3).getBook_id()%>">
+					<input type = "submit" value = "상세보기">
+					</form>
+				</div>
+
+
+			</div>
+		</div>
+	</div>
+
 
 
 	<section class="engine">
